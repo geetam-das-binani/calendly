@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import { ThemeProvider } from "./components/ThemeProvider";
+// import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +28,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <HydrationOverlay> */}
+
         {children}
+
+        {/* </HydrationOverlay> */}
       </body>
     </html>
   );

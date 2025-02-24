@@ -1,0 +1,65 @@
+import { conformZodMessage } from "@conform-to/zod";
+import { z } from "zod";
+export const onBoardingSchema = z.object({
+  fullName: z
+    .string()
+    .min(3, { message: "FullName should be at least 3 characters long." })
+    .max(150),
+  userName: z
+    .string()
+    .min(3, { message: "username should be at least 3 characters long." })
+    .max(150)
+    .regex(/^[a-zA-Z0-9-]+$/, {
+      message: "Username should only contain letters, numbers, and dashes.",
+    }),
+});
+
+export const onBoardingSchemaValidation = (options?: {
+  isUsernameUnique?: () => Promise<boolean>;
+}) => {
+  return z.object({
+    userName: z
+      .string()
+      .min(3, { message: "username should be at least 3 characters long." })
+      .max(150)
+      .regex(/^[a-zA-Z0-9-]+$/, {
+        message: "Username should only contain letters, numbers, and dashes.",
+      })
+      .pipe(
+        z.string().superRefine((_, ctx) => {
+          if (typeof options?.isUsernameUnique !== "function") {
+            return ctx.addIssue({
+              code: "custom",
+              message: conformZodMessage.VALIDATION_UNDEFINED,
+              fatal: true,
+            });
+          }
+          return options.isUsernameUnique().then((isUnique) => {
+            if (!isUnique) {
+              ctx.addIssue({
+                code: "custom",
+                message: "Username is already taken.",
+              });
+            }
+          });
+        })
+      ),
+    fullName: z
+      .string()
+      .min(3, { message: "FullName should be at least 3 characters long." })
+      .max(150),
+  });
+};
+
+
+
+export const settingsSchema = z.object({
+  fullName: z
+    .string()
+    .min(3, { message: "FullName should be at least 3 characters long." })
+    .max(150),
+ 
+  profileImage: z
+    .string()
+    
+});
