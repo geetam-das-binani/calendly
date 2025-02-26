@@ -17,7 +17,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { settingsSchema } from "@/lib/schema";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { File, MoveLeftIcon, MoveRightIcon, X } from "lucide-react";
+import { File, MoveLeftIcon, X } from "lucide-react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { toast } from "sonner";
 import Link from "next/link";

@@ -54,7 +54,7 @@ const DashBoardLayout = async ({ children }: { children: React.ReactNode }) => {
   if (session.user?.id) {
     data = await getData(session.user?.id as string);
   }
-
+  
   return (
     <>
       <div className="min-h-screen w-full grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

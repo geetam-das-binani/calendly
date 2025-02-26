@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import requireUser from "@/lib/hooks";
 import { settingsSchema } from "@/lib/schema";
 import { parseWithZod } from "@conform-to/zod";
+
 export const settingsAction = async (prevState: any, formData: FormData) => {
   try {
     const session = await requireUser();
@@ -22,6 +23,7 @@ export const settingsAction = async (prevState: any, formData: FormData) => {
       },
     });
 
+  
   } catch (error) {
     console.error(error);
   }
