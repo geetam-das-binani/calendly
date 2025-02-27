@@ -51,15 +51,19 @@ export const onBoardingSchemaValidation = (options?: {
   });
 };
 
-
-
 export const settingsSchema = z.object({
   fullName: z
     .string()
     .min(3, { message: "FullName should be at least 3 characters long." })
     .max(150),
- 
-  profileImage: z
-    .string()
-    
+
+  profileImage: z.string(),
+});
+
+export const eventTypeSchema = z.object({
+  title: z.string().min(3).max(150),
+  duration: z.number().min(15).max(60),
+  description: z.string().min(3).max(150),
+  url: z.string().min(3).max(300),
+  videoCallSoftware: z.string().min(3),
 });

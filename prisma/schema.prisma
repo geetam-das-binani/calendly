@@ -102,4 +102,5 @@ model EventType {
   userId String
 
   createdAt DateTime @default(now())
+  
 }
