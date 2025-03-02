@@ -6,13 +6,17 @@ import {
   endOfMonth,
   getWeeksInMonth,
 } from "@internationalized/date";
-import CalendarCell from "./CalendarCell";
+import CalendarCell from "./CalendarCell"
+import { DateValue } from "@react-types/calendar";
+
 const CalendarGrid = ({
   state,
   offset = {},
+  isDateUnavailable,
 }: {
   state: CalendarState;
   offset?: DateDuration;
+  isDateUnavailable?: (date: DateValue) => boolean;
 }) => {
   const startDate = state?.visibleRange?.start?.add(offset);
   const endDate = endOfMonth(startDate);
@@ -47,6 +51,7 @@ const CalendarGrid = ({
                     state={state}
                     date={date}
                     currentMonth={startDate}
+                    isUnavailable={isDateUnavailable?.(date)}
                   />
                 ) : (
                   <td key={i} />

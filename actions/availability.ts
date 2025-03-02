@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/db";
 import requireUser from "@/lib/hooks";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const updateAvailability = async (formData: FormData) => {
   await requireUser();
+  let redirectPath: string | null = null;
   try {
     const rawData = Object.fromEntries(formData.entries()); // Convert to an object
 
@@ -21,20 +23,28 @@ export const updateAvailability = async (formData: FormData) => {
         };
       });
 
-    await prisma.$transaction(async (tx) => {
-      for (const item of availabilityData) {
-        await tx.availability.update({
+    await prisma.$transaction(
+      availabilityData.map((item) =>
+        prisma.availability.update({
           where: { id: item.id },
           data: {
             isActive: item.isActive,
             fromTime: item.fromTime,
             tillTime: item.tillTime,
           },
-        });
-      }
-    });
+        })
+      )
+    );
+    
+   
+
     revalidatePath("/dashboard/availability");
+    redirectPath = "/dashboard";
   } catch (error) {
     console.error("Error updating availability:", error);
+  } finally {
+    if (redirectPath) {
+      redirect(redirectPath);
+    }
   }
 };

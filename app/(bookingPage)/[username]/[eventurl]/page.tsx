@@ -43,17 +43,27 @@ async function getData(username: string, url: string) {
 }
 const BookingForm = async ({
   params,
+  searchParams,
 }: {
   params: { username: string; eventurl: string };
+  searchParams: { date?: string };
 }) => {
   const { username, eventurl } = await params;
+  const selectedDate = searchParams.date
+    ? new Date(searchParams.date)
+    : new Date();
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(selectedDate);
 
   const data = await getData(username, eventurl);
 
   return (
     <div className="min-h-screen flex items-center w-screen justify-center">
       <Card className="max-w-[1000px] w-full mx-auto">
-        <CardContent className="p-5 grid md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-4">
+        <CardContent className="p-5 gap-4 grid md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-4">
           <div>
             <Image
               src={data.user.image as string}
@@ -74,7 +84,7 @@ const BookingForm = async ({
               <p className="flex items-center">
                 <CalendarX2 className="size-4 mr-2 text-primary" />
                 <span className="text-sm font-medium text-muted-foreground">
-                  23 .March 2025
+                  {formattedDate}
                 </span>
               </p>
               <p className="flex items-center">
@@ -95,7 +105,7 @@ const BookingForm = async ({
             orientation="vertical"
             className="hidden md:block h-full w-[1px]"
           />
-          <RenderCalendar />
+          <RenderCalendar availability={data?.user?.Availability || []} />
         </CardContent>
       </Card>
     </div>
