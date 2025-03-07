@@ -5,16 +5,9 @@ import React from "react";
 import EmptyState from "../components/EmptyState";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {
-  ExternalLink,
-  Link2,
-  Pen,
-  Settings,
-  Trash,
-  Users2,
-} from "lucide-react";
+import { ExternalLink, Pen, Settings, Trash, Users2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { ButtonGroup } from "@/components/ui/buttonGroup";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +17,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import CopyLinkMenu from "../components/CopyLinkMenu";
+import EventTypeSwitcher from "../components/EventTypeSwitcher";
 
 async function getData(id: string) {
   const data = await prisma.user.findUnique({
@@ -72,7 +67,7 @@ const DashBoard = async () => {
               </p>
             </div>
             <Button asChild>
-              <Link href={"/dashboard/new"}>Crete New Event</Link>
+              <Link href={"/dashboard/new"}>Create New Event</Link>
             </Button>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -94,18 +89,23 @@ const DashBoard = async () => {
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
                         <DropdownMenuItem asChild>
-                          <Link href={`/${data.username}/${item.url}`}>
+                          <Link
+                            href={`${process.env.NEXT_PUBLIC_URL}/${data.username}/${item.url}`}
+                          >
                             <ExternalLink className="size-4 mr-2" />
                             Preview
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Link2 className="mr-2 size-4" />
-                          Copy
+                        <DropdownMenuItem asChild>
+                          <CopyLinkMenu
+                            meetingUrl={`${process.env.NEXT_PUBLIC_URL}/${data.username}/${item.url}`}
+                          />
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Pen className="mr-2 size-4" />
-                          Edit
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/event/${item.id}`}>
+                            <Pen className="mr-2 size-4" />
+                            Edit
+                          </Link>
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
@@ -130,9 +130,14 @@ const DashBoard = async () => {
                   </div>
                 </Link>
                 <div className="bg-muted justify-between items-center py-3 flex px-2">
-                  <Switch />
+                  <EventTypeSwitcher
+                    eventTypeId={item.id}
+                    initialChecked={item.active}
+                  />
 
-                  <Button>Edit</Button>
+                  <Button asChild>
+                    <Link href={`/dashboard/event/${item.id}`}>Edit Event</Link>
+                  </Button>
                 </div>
               </div>
             ))}

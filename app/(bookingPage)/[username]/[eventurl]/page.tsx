@@ -16,9 +16,7 @@ async function getData(username: string, url: string) {
   const data = await prisma.eventType.findFirst({
     where: {
       url,
-      user: {
-        username,
-      },
+      user: { username },
       active: true,
     },
     select: {
@@ -31,12 +29,7 @@ async function getData(username: string, url: string) {
         select: {
           image: true,
           name: true,
-          Availability: {
-            select: {
-              day: true,
-              isActive: true,
-            },
-          },
+          Availability: { select: { day: true, isActive: true } },
         },
       },
     },
@@ -46,14 +39,15 @@ async function getData(username: string, url: string) {
 
   return data;
 }
+
 const BookingForm = async ({
   params,
   searchParams,
 }: {
   params: { username: string; eventurl: string };
-  searchParams: { date?: string; time?: string };
+  searchParams: { date: string; time: string };
 }) => {
-  const { username, eventurl } = await params;
+  const { username, eventurl } = params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
@@ -65,132 +59,90 @@ const BookingForm = async ({
 
   const data = await getData(username, eventurl);
   const showForm = !!searchParams.date && !!searchParams.time;
+
   return (
-    <div className="min-h-screen flex items-center w-screen justify-center">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       {showForm ? (
-        <Card className="max-w-[600px] w-full mx-auto">
-          <CardContent className="p-5 gap-4 grid md:grid-cols-[1fr,auto,1fr] md:gap-4">
+        <Card className="w-full max-w-lg mx-auto">
+          <CardContent className="p-5 grid gap-4 md:grid-cols-2">
             <div>
               <Image
-                src={data.user.image as string}
+                src={data.user.image ?? ""}
                 alt={`${data.user.name}'s profile picture`}
-                className="size-9 rounded-full"
-                width={30}
-                height={30}
+                className="w-10 h-10 rounded-full"
+                width={40}
+                height={40}
               />
               <p className="text-sm font-medium text-muted-foreground mt-1">
                 {data.user?.name ?? ""}
               </p>
               <h1 className="text-xl font-semibold mt-2">{data.title ?? ""}</h1>
-
               <p className="text-sm font-medium text-muted-foreground">
                 {data.description ?? ""}
               </p>
-              <div className="mt-5 flex flex-col gap-y-3">
+              <div className="mt-5 flex flex-col gap-3">
                 <p className="flex items-center">
-                  <CalendarX2 className="size-4 mr-2 text-primary" />
+                  <CalendarX2 className="w-4 h-4 mr-2 text-primary" />
                   <span className="text-sm font-medium text-muted-foreground">
                     {formattedDate}
                   </span>
                 </p>
                 <p className="flex items-center">
-                  <ClockIcon className="size-4 mr-2 text-primary" />
+                  <ClockIcon className="w-4 h-4 mr-2 text-primary" />
                   <span className="text-sm font-medium text-muted-foreground">
-                    {data.duration ?? ""}{" "}
+                    {data.duration ?? ""}
                   </span>
-                </p>{" "}
+                </p>
                 <p className="flex items-center">
-                  <VideoIcon className="size-4 mr-2 text-primary" />
+                  <VideoIcon className="w-4 h-4 mr-2 text-primary" />
                   <span className="text-sm font-medium text-muted-foreground">
-                    {data.videoCallSoftware ?? ""}{" "}
+                    {data.videoCallSoftware ?? ""}
                   </span>
                 </p>
               </div>
             </div>
-            <Separator
-              orientation="vertical"
-              className="hidden md:block h-full w-[1px]"
-            />
-            <form action={CreateMeeting} className="flex flex-col gap-y-4">
+            <Separator className="hidden md:block h-full w-[1px]" />
+            <form action={CreateMeeting} className="flex flex-col gap-4">
               <input name="fromTime" hidden value={searchParams.time} />
               <input name="eventDate" hidden value={searchParams.date} />
               <input name="meetingLength" hidden value={data.duration} />
               <input name="provider" hidden value={data.videoCallSoftware} />
               <input name="username" hidden value={username} />
               <input name="eventTypeId" hidden value={data.id} />
-              <div className="flex flex-col gap-y-2">
+              <div>
                 <Label>Your Name</Label>
-                <Input name="name" placeholder="Your Name" />
+                <Input name="name" placeholder="Your Name" required />
               </div>
-
-              <div className="flex flex-col gap-y-2">
+              <div>
                 <Label>Your Email</Label>
-                <Input name="email" placeholder="Your Email" />
+                <Input name="email" placeholder="Your Email" required />
               </div>
               <SubmitButton text="Book Meeting" className="w-full mt-5" />
             </form>
-            {/* <RenderCalendar availability={data?.user?.Availability || []} />
-         <Separator
-           orientation="vertical"
-           className="hidden md:block h-full w-[1px]"
-         /> */}
-            {/* <TimeTable
-           meetingDuration={data.duration}
-           selectedDate={selectedDate}
-           userName={username}
-         /> */}
           </CardContent>
         </Card>
       ) : (
-        <Card className="max-w-[1000px] w-full mx-auto">
-          <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-4">
+        <Card className="w-full max-w-4xl mx-auto">
+          <CardContent className="p-5 grid gap-4 md:grid-cols-[1fr,auto,1fr,auto,1fr]">
             <div>
               <Image
                 src={data.user.image as string}
                 alt={`${data.user.name}'s profile picture`}
-                className="size-9 rounded-full"
-                width={30}
-                height={30}
+                className="w-10 h-10 rounded-full"
+                width={40}
+                height={40}
               />
               <p className="text-sm font-medium text-muted-foreground mt-1">
                 {data.user?.name ?? ""}
               </p>
               <h1 className="text-xl font-semibold mt-2">{data.title ?? ""}</h1>
-
               <p className="text-sm font-medium text-muted-foreground">
                 {data.description ?? ""}
               </p>
-              <div className="mt-5 flex flex-col gap-y-3">
-                <p className="flex items-center">
-                  <CalendarX2 className="size-4 mr-2 text-primary" />
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {formattedDate}
-                  </span>
-                </p>
-                <p className="flex items-center">
-                  <ClockIcon className="size-4 mr-2 text-primary" />
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {data.duration ?? ""}{" "}
-                  </span>
-                </p>{" "}
-                <p className="flex items-center">
-                  <VideoIcon className="size-4 mr-2 text-primary" />
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {data.videoCallSoftware ?? ""}{" "}
-                  </span>
-                </p>
-              </div>
             </div>
-            <Separator
-              orientation="vertical"
-              className="hidden md:block h-full w-[1px]"
-            />
-
+            <Separator className="hidden md:block h-full w-[1px]" />
             <RenderCalendar availability={data?.user?.Availability || []} />
-            <Separator
-              orientation="vertical"
-              className="hidden md:block h-full w-[1px]"
-            />
+            <Separator className="hidden md:block h-full w-[1px]" />
             <TimeTable
               meetingDuration={data.duration}
               selectedDate={selectedDate}
