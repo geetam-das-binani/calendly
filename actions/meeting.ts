@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import requireUser from "@/lib/hooks";
 import { nylas } from "@/lib/nylas";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const CreateMeeting = async (formData: FormData) => {
@@ -69,5 +70,33 @@ export const CreateMeeting = async (formData: FormData) => {
     if (redirectPath) {
       return redirect(redirectPath);
     }
+  }
+};
+
+export const cancelMeeting = async (formData: FormData) => {
+  const session = await requireUser();
+
+  try {
+    const getUserData = await prisma.user.findUnique({
+      where: {
+        id: session?.user?.id,
+      },
+      select: {
+        grantEmail: true,
+        grantId: true,
+      },
+    });
+    if (!getUserData) throw new Error("User not found");
+
+    await nylas.events.destroy({
+      eventId: formData.get("eventId") as string,
+      identifier: getUserData.grantId as string,
+      queryParams: {
+        calendarId: getUserData.grantEmail as string,
+      },
+    });
+    revalidatePath("/dashboard/meetings");
+  } catch (error) {
+    console.error(error);
   }
 };

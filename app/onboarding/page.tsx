@@ -35,7 +35,7 @@ const onBoarding = () => {
             Welcome to Cal<span className="text-primary">endly</span>
           </CardTitle>
           <CardDescription>
-            We need the following information to set uo your profile!
+            We need the following information to set up your profile!
           </CardDescription>
         </CardHeader>
         <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>

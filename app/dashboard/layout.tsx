@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
-// import { ThemeToggle } from "../components/ThemeToggle";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +27,7 @@ import { prisma } from "../../lib/db";
 import { redirect } from "next/navigation";
 import requireUser from "@/lib/hooks";
 import { signOut } from "@/lib/auth";
+import { Toaster } from "sonner";
 
 async function getData(id: string) {
   const user = await prisma.user.findUnique({
@@ -142,6 +143,7 @@ const DashBoardLayout = async ({ children }: { children: React.ReactNode }) => {
             {children}
           </main>
         </div>
+        <Toaster richColors/>
       </div>
     </>
   );
