@@ -67,16 +67,17 @@ export const updateEvent = async (prevState: any, formData: FormData) => {
   }
 };
 
-export const toggleEvent = async (
-  prevState: any,
-  {
-    eventTypeId,
-    isChecked,
-  }: {
-    eventTypeId: string;
-    isChecked: boolean;
-  }
-) => {
+
+
+
+export const toggleEvent = async (prevState:any,{
+  eventTypeId,
+  isChecked,
+}: {
+  eventTypeId: string;
+  isChecked: boolean;
+}) => {
+
   try {
     const session = await requireUser();
     await prisma.eventType.update({
@@ -101,6 +102,7 @@ export const toggleEvent = async (
     };
   }
 };
+
 export const deleteEvent = async (formData: FormData) => {
   let redirectPath: string | null = null;
   try {
@@ -119,3 +121,4 @@ export const deleteEvent = async (formData: FormData) => {
     if (redirectPath) redirect(redirectPath);
   }
 };
+

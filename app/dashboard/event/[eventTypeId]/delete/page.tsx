@@ -1,3 +1,4 @@
+
 import { deleteEvent } from "@/actions/event";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,5 @@ const Delete = ({ params }: { params: { eventTypeId: string } }) => {
       </Card>
     </div>
   );
-};
-
+}
 export default Delete;
