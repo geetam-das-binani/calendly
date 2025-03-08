@@ -47,7 +47,7 @@ const BookingForm = async ({
   params: { username: string; eventurl: string };
   searchParams: { date: string; time: string };
 }) => {
-  const { username, eventurl } = await params;
+  const { username, eventurl } =  params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();

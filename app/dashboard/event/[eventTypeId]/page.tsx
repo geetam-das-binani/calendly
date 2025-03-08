@@ -20,7 +20,7 @@ async function getData(id: string) {
   return data;
 }
 const page = async ({ params }: { params: { eventTypeId: string } }) => {
-  const { eventTypeId } = await params;
+  const { eventTypeId } =  params;
   const data =await  getData(eventTypeId);
   return (
     <EditEventTypeForm
