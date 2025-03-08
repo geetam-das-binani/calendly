@@ -44,21 +44,22 @@ const BookingForm = async ({
   params,
   searchParams,
 }: {
-  params: { username: string; eventurl: string };
-  searchParams: { date: string; time: string };
+  params: Promise<{ username: string; eventurl: string }>;
+  searchParams: Promise<{ date?: string; time?: string }>;
 }) => {
-  // const { username, eventurl } =  params;
-  const selectedDate = searchParams.date
-    ? new Date(searchParams.date)
-    : new Date();
+  const  username = (await params).username;
+  const eventurl = (await params).eventurl;
+  const date = (await searchParams).date;
+  const time = (await searchParams).time;
+  const selectedDate = date ? new Date(date) : new Date();
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     day: "numeric",
     month: "long",
   }).format(selectedDate);
 
-  const data = await getData(params.username, params.eventurl);
-  const showForm = !!searchParams.date && !!searchParams.time;
+  const data = await getData(username, eventurl);
+  const showForm = !!date && !!time;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -103,11 +104,11 @@ const BookingForm = async ({
             </div>
             <Separator className="hidden md:block h-full w-[1px]" />
             <form action={CreateMeeting} className="flex flex-col gap-4">
-              <input name="fromTime" hidden value={searchParams.time} />
-              <input name="eventDate" hidden value={searchParams.date} />
+              <input name="fromTime" hidden value={time} />
+              <input name="eventDate" hidden value={date} />
               <input name="meetingLength" hidden value={data.duration} />
               <input name="provider" hidden value={data.videoCallSoftware} />
-              <input name="username" hidden value={params.username} />
+              <input name="username" hidden value={username} />
               <input name="eventTypeId" hidden value={data.id} />
               <div>
                 <Label>Your Name</Label>
@@ -146,7 +147,7 @@ const BookingForm = async ({
             <TimeTable
               meetingDuration={data.duration}
               selectedDate={selectedDate}
-              userName={params.username}
+              userName={username}
             />
           </CardContent>
         </Card>
