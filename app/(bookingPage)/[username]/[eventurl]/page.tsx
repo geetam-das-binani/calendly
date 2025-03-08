@@ -47,7 +47,7 @@ const BookingForm = async ({
   params: { username: string; eventurl: string };
   searchParams: { date: string; time: string };
 }) => {
-  const { username, eventurl } =  params;
+  // const { username, eventurl } =  params;
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
@@ -57,7 +57,7 @@ const BookingForm = async ({
     month: "long",
   }).format(selectedDate);
 
-  const data = await getData(username, eventurl);
+  const data = await getData(params.username, params.eventurl);
   const showForm = !!searchParams.date && !!searchParams.time;
 
   return (
@@ -107,7 +107,7 @@ const BookingForm = async ({
               <input name="eventDate" hidden value={searchParams.date} />
               <input name="meetingLength" hidden value={data.duration} />
               <input name="provider" hidden value={data.videoCallSoftware} />
-              <input name="username" hidden value={username} />
+              <input name="username" hidden value={params.username} />
               <input name="eventTypeId" hidden value={data.id} />
               <div>
                 <Label>Your Name</Label>
@@ -146,7 +146,7 @@ const BookingForm = async ({
             <TimeTable
               meetingDuration={data.duration}
               selectedDate={selectedDate}
-              userName={username}
+              userName={params.username}
             />
           </CardContent>
         </Card>
