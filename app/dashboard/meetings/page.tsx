@@ -58,12 +58,9 @@ const Meetings = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {data.data.map((item:any) => (
-              <form action={cancelMeeting}>
-                <div
-                  key={item.id}
-                  className="grid grid-cols-3 justify-between items-center"
-                >
+            {data.data.map((item: any) => (
+              <form action={cancelMeeting} key={item.id}>
+                <div className="grid grid-cols-3 justify-between items-center">
                   <input type="hidden" name="eventId" value={item.id} />
                   <div>
                     <p className="text-muted-foreground text-sm">
