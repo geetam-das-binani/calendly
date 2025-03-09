@@ -65,7 +65,7 @@ const BookingForm = async ({
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       {showForm ? (
         <Card className="w-full max-w-lg mx-auto">
-          <CardContent className="p-5 grid gap-4 md:grid-cols-2">
+          <CardContent className="p-5 grid gap-4 md:grid-cols-[1fr,auto,1fr]">
             <div>
               <Image
                 src={data.user.image ?? ""}
