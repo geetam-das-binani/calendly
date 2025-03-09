@@ -8,6 +8,7 @@ import Logos from "./components/Logos";
 import Features from "./components/Features";
 import Testimonial from "./components/Testimonial";
 import CTA from "./components/CTA";
+import Footer from "./components/Footer";
 
 const Home = async () => {
   const session = await auth();
@@ -21,6 +22,7 @@ const Home = async () => {
       <Features />
       <Testimonial />
       <CTA />
+      <Footer />
     </div>
   );
 };

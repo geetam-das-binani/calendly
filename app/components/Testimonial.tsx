@@ -31,10 +31,8 @@ const Testimonial = () => {
             </p>
           </div>
           <footer className="mt-6">
-            <div className="font-semibold ">Geetam Das Binani</div>
-            <div className="text-sm text-muted-foreground">
-              Programmer
-            </div>
+            <div className="font-semibold ">John Doe</div>
+            
           </footer>
         </blockquote>
         {/* End Blockquote */}
