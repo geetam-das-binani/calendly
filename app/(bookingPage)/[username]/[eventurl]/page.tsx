@@ -112,11 +112,11 @@ const BookingForm = async ({
               <input name="eventTypeId" hidden value={data.id} />
               <div>
                 <Label>Your Name</Label>
-                <Input name="name" placeholder="Your Name" required />
+                <Input  name="name" placeholder="Your Name" required />
               </div>
               <div>
                 <Label>Your Email</Label>
-                <Input name="email" placeholder="Your Email" required />
+                <Input  name="email" placeholder="Your Email" required />
               </div>
               <SubmitButton text="Book Meeting" className="w-full mt-5" />
             </form>

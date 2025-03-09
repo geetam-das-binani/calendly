@@ -5,7 +5,7 @@ import { parseWithZod } from "@conform-to/zod";
 import React, { useActionState, useState } from "react";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/buttonGroup";
+
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { updateEvent } from "@/actions/event";
-type VideoCallProvider = "Google Meet" | "Zoom Meeting" | "Microsoft Teams";
+type VideoCallProvider = "Google Meet";
 interface EditEventTypeFormProps {
   id: string;
   title: string;
@@ -147,40 +147,16 @@ const EditEventTypeForm = ({
                 value={activePlatform}
                 type="hidden"
               />
-              <ButtonGroup className="gap-2">
-                <Button
-                  type="button"
-                  variant={
-                    activePlatform === "Zoom Meeting" ? "secondary" : "outline"
-                  }
-                  onClick={() => setActivePlatform("Zoom Meeting")}
-                  className="w-full "
-                >
-                  Zoom
-                </Button>
-                <Button
-                  type="button"
-                  variant={
-                    activePlatform === "Google Meet" ? "secondary" : "outline"
-                  }
-                  onClick={() => setActivePlatform("Google Meet")}
-                  className="w-full "
-                >
-                  Google Meet
-                </Button>
-                <Button
-                  type="button"
-                  variant={
-                    activePlatform === "Microsoft Teams"
-                      ? "secondary"
-                      : "outline"
-                  }
-                  onClick={() => setActivePlatform("Microsoft Teams")}
-                  className="w-full "
-                >
-                  Microsoft Teams
-                </Button>
-              </ButtonGroup>
+
+              <Button
+                type="button"
+                variant={"secondary"}
+                onClick={() => setActivePlatform("Google Meet")}
+                className="w-full "
+              >
+                Google Meet
+              </Button>
+
               {fields.videoCallSoftware.errors && (
                 <p className="text-red-500 text-sm">
                   {fields.videoCallSoftware.errors}

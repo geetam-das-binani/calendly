@@ -48,6 +48,7 @@ export const CreateMeeting = async (formData: FormData) => {
         },
         conferencing: {
           autocreate: {},
+
           provider: provider as any,
         },
         participants: [
@@ -64,8 +65,8 @@ export const CreateMeeting = async (formData: FormData) => {
       },
     });
     redirectPath = `/success`;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error.message);
   } finally {
     if (redirectPath) {
       return redirect(redirectPath);
