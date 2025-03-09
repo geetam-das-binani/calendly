@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import CopyLinkMenu from "../components/CopyLinkMenu";
 import EventTypeSwitcher from "../components/EventTypeSwitcher";
+import { deleteEvent } from "@/actions/event";
+import { SubmitButton } from "../components/SubmitButtons";
 
 async function getData(id: string) {
   const data = await prisma.user.findUnique({

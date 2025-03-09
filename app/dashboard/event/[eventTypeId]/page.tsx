@@ -19,9 +19,13 @@ async function getData(id: string) {
   if (!data) return notFound();
   return data;
 }
-const page = async ({ params }: { params: { eventTypeId: string } }) => {
-  const { eventTypeId } =  params;
-  const data =await  getData(eventTypeId);
+const page = async ({
+  params,
+}: {
+  params: Promise<{ eventTypeId: string }>;
+}) => {
+  const eventTypeId = (await params).eventTypeId;
+  const data = await getData(eventTypeId);
   return (
     <EditEventTypeForm
       callProvider={data.videoCallSoftware}

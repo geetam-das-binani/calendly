@@ -12,10 +12,10 @@ import {
 import Link from "next/link";
 
 import React from "react";
-type IdProp = Promise<{ eventTypeId: string }>
+type IdProp = Promise<{ eventTypeId: string }>;
 
 const Delete = async ({ params }: { params: IdProp }) => {
-  const  eventTypeId  = (await params).eventTypeId
+  const eventTypeId = (await params).eventTypeId;
   return (
     <div className="flex flex-1 items-center justify-center">
       <Card className="max-w-[450px] w-full">
